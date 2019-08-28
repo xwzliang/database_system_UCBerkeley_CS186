@@ -1,3 +1,10 @@
+downloads/
+hw1/*-sorted.csv
+hw1/ebooks_full.txt
+hw1/ebooks_tiny.txt
+hw1/test/ebooks_full.txt.out/
+hw1/test/ebooks_tiny.txt.out/
+
 *.class
 hw2/project/project/target/
 spark-skeleton
