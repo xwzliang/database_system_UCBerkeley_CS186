@@ -78,11 +78,11 @@ In addition to this README file, you will see:
 * `ebook.csv`, `name_counts.csv`, `token_counts.csv` and `tokens.csv`:
    correctly-formatted example outputs.
 
-Finally, within your VM download the ebook data [here](https://inst.eecs.berkeley.edu/~cs186-te/ebooks.zip) and unzip ebooks.zip in the hw1 directory.
+Finally, within your VM download the ebook data [here](http://inst.eecs.berkeley.edu/~cs186/sp15/hw1/ebooks.zip) and unzip ebooks.zip in the hw1 directory.
 Move `ebooks/ebooks_full.txt` and `ebooks/ebooks_tiny.txt` into hw1, and  `ebooks/ebooks_full.txt.out` and  `ebooks/ebooks_tiny.txt.out` into hw1/test/.
 
     vagrant@precise64:~$ cd ~/course/hw1
-    vagrant@precise64:~$ wget -O ebooks.zip https://inst.eecs.berkeley.edu/~cs186-te/ebooks.zip
+    vagrant@precise64:~$ wget -O ebooks.zip http://inst.eecs.berkeley.edu/~cs186/sp15/hw1/ebooks.zip
     vagrant@precise64:~$ unzip ebooks.zip
     vagrant@precise64:~$ mv ebooks/*txt .
     vagrant@precise64:~$ mv ebooks/*.out test
