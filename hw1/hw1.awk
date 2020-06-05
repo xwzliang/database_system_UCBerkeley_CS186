@@ -13,6 +13,9 @@ BEGIN {
     printf "token,count\r\n" > token_counts_csv_file
     printf "ebook_id,token\r\n" > tokens_csv_file
 
+    # ebook info name array
+    split("title,author,release_date,ebook_id,language", ebook_info_name_arr, ",")
+
     # Load popular names to a list
     while ((getline < popular_names_file) > 0)
         popular_names[tolower($0)] = 1
@@ -36,30 +39,21 @@ match($0, /^Language:\s+([[:alpha:]].*[[:alpha:]])\s*\r/, match_arr) {
 }
 
 /\*\*\* START OF THE PROJECT GUTENBERG / {
-    info["title"] = info["title"] ? info["title"] : "null"
-    info["author"] = info["author"] ? info["author"] : "null"
-    info["release_date"] = info["release_date"] ? info["release_date"] : "null"
-    info["ebook_id"] = info["ebook_id"] ? info["ebook_id"] : "null"
-    info["language"] = info["language"] ? info["language"] : "null"
-
-    # if contents have comma or quotes, quote them
-    if (match(info["title"], /[,"]/)) {
-        # substitute a double quote with two double quotes
-        gsub(/"/, "\"\"", info["title"])
-        printf("\"%s\",", info["title"]) > ebook_csv_file
+    # print info of ebook
+    for (i in ebook_info_name_arr) {
+        item = ebook_info_name_arr[i]
+        # set null if it has no value
+        info[item] = info[item] ? info[item] : "null"
+        if (match(info[item], /[,"]/)) {
+            # substitute a double quote with two double quotes
+            gsub(/"/, "\"\"", info[item])
+            printf("\"%s\",", info[item]) > ebook_csv_file
+        }
+        else
+            printf("%s,", info[item]) > ebook_csv_file
     }
-    else
-        printf("%s,", info["title"]) > ebook_csv_file
-    if (match(info["author"], /,/))
-        printf("\"%s\",", info["author"]) > ebook_csv_file
-    else
-        printf("%s,", info["author"]) > ebook_csv_file
-    if (match(info["release_date"], /,/))
-        printf("\"%s\",%s,", info["release_date"], info["ebook_id"]) > ebook_csv_file
-    else
-        printf("%s,%s,", info["release_date"], info["ebook_id"]) > ebook_csv_file
-    printf("%s,", info["language"]) > ebook_csv_file
 
+    # print body of ebook
     printf("\"\r\n") > ebook_csv_file
     getline
     for (getline; $0 !~ /\*\*\* END OF THE PROJECT GUTENBERG /; getline ) {
@@ -82,11 +76,10 @@ match($0, /^Language:\s+([[:alpha:]].*[[:alpha:]])\s*\r/, match_arr) {
     }
     printf("\"\r\n") > ebook_csv_file
 
-    info["title"] = ""
-    info["author"] = ""
-    info["release_date"] = ""
-    info["ebook_id"] = ""
-    info["language"] = ""
+    # reset info of ebook after finished one book
+    for (item in info) {
+        info[item] = ""
+    }
 }
 
 END {
