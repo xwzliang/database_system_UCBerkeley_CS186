@@ -67,9 +67,11 @@ match($0, /^Language:\s+([[:alpha:]].*[[:alpha:]])\s*\r/, match_arr) {
         for (i=1; i<=token_num_current_line; i++)
             if (token_arr[i]) {
                 token = tolower(token_arr[i])
+                # count tokens
                 token_count[token]++
                 printf("%s,%s\r\n", info["ebook_id"], token) > tokens_csv_file
                 if (token in popular_names) {
+                    # count popular names
                     popular_names_count[token]++
                 }
             }
@@ -83,8 +85,10 @@ match($0, /^Language:\s+([[:alpha:]].*[[:alpha:]])\s*\r/, match_arr) {
 }
 
 END {
+    # print token_count
     for (token in token_count)
         printf("%s,%s\r\n", token, token_count[token]) > token_counts_csv_file
+    # print popular_names_count
     for (token in popular_names_count)
         printf("%s,%s\r\n", token, popular_names_count[token]) > name_counts_csv_file
 }
