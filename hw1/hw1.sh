@@ -1,4 +1,9 @@
 #!/bin/bash
-# bash command-line arguments are accessible as $0 (the bash script), $1, etc.
-# echo "Running" $0 "on" $1
-echo "Replace the contents of this file with your solution."
+
+echo "Running" $0 "on" $1
+
+# Make the locale as C to use only ASCII character set with single byte encoding, pass LC_ALL=C to awk's environment:
+LC_ALL=C awk -f hw1.awk $1
+
+echo "Finished"
+exit 0
